@@ -12,8 +12,8 @@ The filter should be defined for all integer values x in the range [-3sigma,3sig
 The function should return the Gaussian values Gx computed at the indexes x
 """
 
-
-def gauss(sigma, steps=1000):
+# TODO: test function
+def gauss(sigma):
     """
     Gauss Function
     :param sigma: (float) Sigma value of Gaussian
@@ -21,11 +21,10 @@ def gauss(sigma, steps=1000):
     :return: Gaussian array
     """
 
-    x = np.arange(-3*sigma, 3*sigma, abs((-3*sigma) - (3*sigma)) / steps)
-    gx = (1/np.sqrt(2*np.pi)*sigma)*np.exp(-(x**2)/2*sigma**2)
+    x = np.arange(-3*sigma, 3*sigma+1e-10, 1)
+    gx = (1/(np.sqrt(2*np.pi)*sigma))*np.exp(-(x**2)/(2*sigma**2))
 
     return gx, x
-
 
 
 """
@@ -35,11 +34,17 @@ Leverage the separability of Gaussian filtering
 Input: image, sigma (standard deviation)
 Output: smoothed image
 """
+# TODO: (nice to have) implement convolution ourselves
 def gaussianfilter(img, sigma):
-    
-    print('Hello')
 
-    return smooth_img
+    gauss_kernel_1d, _ = gauss(sigma)
+    gauss_kernel = np.dot(gauss_kernel_1d[:, None], gauss_kernel_1d[None, :])
+
+    smooth_img = conv2(img, gauss_kernel)
+    smooth_img_normal = (255*(smooth_img-np.min(smooth_img)))/(np.max(smooth_img)-np.min(smooth_img))
+
+
+    return smooth_img_normal
 
 
 

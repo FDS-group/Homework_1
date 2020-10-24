@@ -4,7 +4,7 @@ from PIL import Image
 from scipy.signal import convolve2d as conv2
 import matplotlib.pyplot as plt
 
-import gauss_module
+import Filtering.gauss_module as gauss_module
 
 
 
@@ -30,8 +30,8 @@ plt.show()
 
 ## function gaussianfilter (Question 1.b)
 
-img = rgb2gray(np.array(Image.open('graf.png')))
-smooth_img = gauss_module.gaussianfilter(img, sigma)
+img = rgb2gray(np.array(Image.open('Filtering/graf.png')))
+smooth_img, _ = gauss_module.gaussianfilter(img, 4)
 
 plt.figure(2)
 ax1 = plt.subplot(1,2,1)
