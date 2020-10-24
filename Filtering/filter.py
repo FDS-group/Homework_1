@@ -31,7 +31,7 @@ plt.show()
 ## function gaussianfilter (Question 1.b)
 
 img = rgb2gray(np.array(Image.open('Filtering/graf.png')))
-smooth_img, _ = gauss_module.gaussianfilter(img, 4)
+smooth_img = gauss_module.gaussianfilter(img, 4)
 
 plt.figure(2)
 ax1 = plt.subplot(1,2,1)
@@ -53,7 +53,7 @@ sigma = 4.0
 plt.figure(5)
 plt.plot(x, Gx, 'b.-')
 plt.plot(x, Dx, 'r-')
-plt.legend( ('gauss', 'gaussdx'))
+plt.legend(('gauss', 'gaussdx'))
 plt.show()
 
 
@@ -64,7 +64,7 @@ img_imp = np.zeros([27,27])
 img_imp[13, 13] = 1.0
 plt.figure(6), plt.imshow(img_imp, cmap='gray')
 
-sigma = 7.0
+sigma = int(7.0)
 [Gx, x] = gauss_module.gauss(sigma)
 [Dx, x] = gauss_module.gaussdx(sigma)
 
@@ -90,9 +90,9 @@ plt.show()
 
 ## function gaussderiv (Question 1.e)
 
-img_c = np.array(Image.open('graf.png')).astype('double')
+img_c = np.array(Image.open('Filtering/graf.png')).astype('double')
 img = rgb2gray(img_c)
-[imgDx, imgDy] = gauss_module.gaussderiv(img, 7.0)
+[imgDx, imgDy] = gauss_module.gaussderiv(img, int(7.0))
 
 plt.figure(8)
 ax1 = plt.subplot(1,3,1)
