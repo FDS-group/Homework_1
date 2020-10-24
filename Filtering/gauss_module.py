@@ -11,11 +11,20 @@ Gaussian function taking as argument the standard deviation sigma
 The filter should be defined for all integer values x in the range [-3sigma,3sigma]
 The function should return the Gaussian values Gx computed at the indexes x
 """
-def gauss(sigma):
-    
-    #...
-    
-    return Gx, x
+
+
+def gauss(sigma, steps=1000):
+    """
+    Gauss Function
+    :param sigma: (float) Sigma value of Gaussian
+    :param steps: (int) Steps of the x array
+    :return: Gaussian array
+    """
+
+    x = np.arange(-3*sigma, 3*sigma, abs((-3*sigma) - (3*sigma)) / steps)
+    gx = (1/np.sqrt(2*np.pi)*sigma)*np.exp(-(x**2)/2*sigma**2)
+
+    return gx, x
 
 
 
