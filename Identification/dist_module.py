@@ -12,7 +12,7 @@ def dist_intersect(x,y):
     sum_of_minimum_values = np.sum(np.minimum(x, y))
     intersection_distance = 0.5*((sum_of_minimum_values/np.sum(x)) + (sum_of_minimum_values/np.sum(y)))
 
-    assert (intersection_distance >= 0) & (intersection_distance <= 1), 'Comparison metric cannot be outside of the range [0, 1]'
+    assert (intersection_distance >= 0) & (intersection_distance <= 1), 'Intersection distance cannot be outside of the range [0, 1]'
 
     return intersection_distance
 
@@ -23,7 +23,7 @@ def dist_l2(x,y):
 
     l2_distance = np.sum((x - y)**2)
 
-    assert (l2_distance >= 0) & (l2_distance <= np.sqrt(2)), 'Comparison metric cannot be outside of the range [0, sqrt(2)]'
+    assert (l2_distance >= 0) & (l2_distance <= np.sqrt(2)), 'Least square distance cannot be outside of the range [0, sqrt(2)]'
 
     return l2_distance
 
@@ -39,7 +39,7 @@ def dist_chi2(x,y):
 
     chi_square = np.sum((x - y)**2 / (x + y))
 
-    assert chi_square >= 0, 'Comparison metric must be a positive value'
+    assert chi_square >= 0, 'Chi-square must be a positive value'
 
     return chi_square
 
