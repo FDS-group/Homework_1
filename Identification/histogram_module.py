@@ -18,7 +18,6 @@ import gauss_module
 #
 #  img_gray - input image in grayscale format
 #  num_bins - number of bins in the histogram
-# TODO: there are some small mismatches between results...review with dummy data
 def normalized_hist(img_gray, num_bins):
     assert len(img_gray.shape) == 2, 'image dimension mismatch'
     assert img_gray.dtype == 'float', 'incorrect image type'
@@ -29,6 +28,7 @@ def normalized_hist(img_gray, num_bins):
     img_gray = np.sort(img_gray.reshape(img_gray.size))
     # Set empty list to complete histogram
     hists = [0] * num_bins
+    # Loop over all image pixel values assigning the values to the corresponding bins
     position = 1
     for i in range(len(img_gray)):
         if img_gray[i] <= bins[position]:
@@ -38,7 +38,7 @@ def normalized_hist(img_gray, num_bins):
                 position += 1
             hists[position - 1] += 1
     # Normalize
-    #hists = np.array(hists) / sum(hists)
+    hists = np.array(hists) / sum(hists)
 
     return hists, bins
 
@@ -60,7 +60,11 @@ def rgb_hist(img_color_double, num_bins):
     assert img_color_double.dtype == 'float', 'incorrect image type'
 
 
-    #... (your code here)
+    # Convert color image into a 2d array
+    img_color_double_reshaped = img_color_double.reshape(-1, 3)
+
+    # Bins (these will apply over the three dimensions equally)
+    bins = np.linspace(0, 255, num_bins + 1)
 
 
     #Define a 3D histogram  with "num_bins^3" number of entries
@@ -69,13 +73,17 @@ def rgb_hist(img_color_double, num_bins):
     # Loop for each pixel i in the image 
     for i in range(img_color_double.shape[0]*img_color_double.shape[1]):
         # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
-        
-        #... (your code here)
-        pass
+        # Identify where the value of pixel i would fall into
+        indexR = int(np.digitize(img_color_double_reshaped[i, 0], bins)) - 1
+        indexG = int(np.digitize(img_color_double_reshaped[i, 1], bins)) - 1
+        indexB = int(np.digitize(img_color_double_reshaped[i, 2], bins)) - 1
+
+        hists[indexR, indexG, indexB] += 1
 
 
     #Normalize the histogram such that its integral (sum) is equal 1
     #... (your code here)
+    hists = hists / np.sum(hists)
 
     #Return the histogram as a 1D vector
     hists = hists.reshape(hists.size)
