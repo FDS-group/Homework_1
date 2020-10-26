@@ -18,13 +18,27 @@ import gauss_module
 #
 #  img_gray - input image in grayscale format
 #  num_bins - number of bins in the histogram
+# TODO: there are some small mismatches between results...review with dummy data
 def normalized_hist(img_gray, num_bins):
     assert len(img_gray.shape) == 2, 'image dimension mismatch'
     assert img_gray.dtype == 'float', 'incorrect image type'
 
-
-    #... (your code here)
-
+    # Compute bin values
+    bins = np.linspace(0, 255, num_bins + 1)
+    # Unnest array and sort
+    img_gray = np.sort(img_gray.reshape(img_gray.size))
+    # Set empty list to complete histogram
+    hists = [0] * num_bins
+    position = 1
+    for i in range(len(img_gray)):
+        if img_gray[i] <= bins[position]:
+            hists[position - 1] += 1
+        else:
+            while img_gray[i] >= bins[position]:
+                position += 1
+            hists[position - 1] += 1
+    # Normalize
+    #hists = np.array(hists) / sum(hists)
 
     return hists, bins
 
