@@ -57,7 +57,7 @@ img_imp = np.zeros([27, 27])
 img_imp[13, 13] = 1.0
 plt.figure(6), plt.imshow(img_imp, cmap='gray')
 
-sigma = int(7.0)
+sigma = 7.0
 [Gx, x] = gauss_module.gauss(sigma)
 [Dx, x] = gauss_module.gaussdx(sigma)
 
@@ -83,7 +83,7 @@ plt.show()
 
 img_c = np.array(Image.open('Filtering/graf.png')).astype('double')
 img = rgb2gray(img_c)
-[imgDx, imgDy] = gauss_module.gaussderiv(img, int(7.0))
+[imgDx, imgDy] = gauss_module.gaussderiv(img, 7.0)
 
 plt.figure(8)
 ax1 = plt.subplot(1, 3, 1)
