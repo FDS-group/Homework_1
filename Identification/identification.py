@@ -4,10 +4,10 @@ from PIL import Image
 from numpy import histogram as hist  # call hist, otherwise np.histogram
 import matplotlib.pyplot as plt
 
-import histogram_module
-import dist_module
-import match_module
-import rpc_module
+import Identification.histogram_module as histogram_module
+import Identification.dist_module as dist_module
+import Identification.match_module
+import Identification.rpc_module
 
 
 
@@ -25,7 +25,7 @@ def rgb2gray(rgb):
 
 ## gray-value histograms (Question 2.a)
 
-img_color = np.array(Image.open('./model/obj100__0.png'))
+img_color = np.array(Image.open('Identification/model/obj100__0.png'))
 img_gray = rgb2gray(img_color.astype('double'))
 
 plt.figure(1)
