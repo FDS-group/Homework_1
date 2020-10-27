@@ -60,6 +60,7 @@ def gaussderiv(img, sigma):
     new_row = np.zeros((((dx.shape[1] - dx.shape[0]) // 2), dx.shape[1]))
     new_matrix = np.concatenate((new_row, dx), axis=0)
     new_matrix = np.concatenate((new_matrix, new_row), axis=0)
+    img= gaussianfilter(img, sigma)
     imgDx = scipy.signal.convolve2d(img, new_matrix)
     imgDy = scipy.signal.convolve2d(img, new_matrix.transpose())
 
