@@ -2,13 +2,6 @@ import numpy as np
 from numpy import histogram as hist
 
 # Add the Filtering folder, to import the gauss_module.py file, where gaussderiv is defined (needed for dxdy_hist)
-import sys, os, inspect
-
-currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parentdir = os.path.dirname(currentdir)
-filteringpath = os.path.join(parentdir, 'Filtering')
-sys.path.insert(0, filteringpath)
-import gauss_module
 
 
 #  compute histogram of image intensities, histogram should be normalized so that sum of all values equals 1
@@ -66,7 +59,7 @@ def rgb_hist(img_color_double, num_bins):
     # Define a 3D histogram  with "num_bins^3" number of entries
     hists = np.zeros((num_bins, num_bins, num_bins))
 
-    # Loop for each pixel i in the image 
+    # Loop for each pixel i in the image
     for i in range(img_color_double.shape[0] * img_color_double.shape[1]):
         # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
         # Identify where the value of pixel i would fall into
