@@ -16,6 +16,7 @@ import gauss_module
 #
 #  img_gray - input image in grayscale format
 #  num_bins - number of bins in the histogram
+# TODO: rethink algorithm
 def normalized_hist(img_gray, num_bins):
     assert len(img_gray.shape) == 2, 'image dimension mismatch'
     assert img_gray.dtype == 'float', 'incorrect image type'

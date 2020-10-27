@@ -4,8 +4,8 @@ from PIL import Image
 from numpy import histogram as hist  # call hist, otherwise np.histogram
 import matplotlib.pyplot as plt
 
-import Identification.histogram_module
-import Identification.dist_module
+import Identification.histogram_module as histogram_module
+import Identification.dist_module as dist_module
 import Identification.match_module
 import Identification.rpc_module
 
@@ -38,7 +38,7 @@ hist_gray1, bin_gray1 = hist(img_gray.reshape(img_gray.size), num_bins_gray,(0,2
 plt.bar((bin_gray1[0:-1] + bin_gray1[1:])/2, hist_gray1)
 
 plt.subplot(1,3,3)
-hist_gray2, bin_gray2 = Identification.histogram_module.normalized_hist(img_gray, num_bins_gray)
+hist_gray2, bin_gray2 = histogram_module.normalized_hist(img_gray, num_bins_gray)
 plt.bar((bin_gray2[0:-1] + bin_gray2[1:])/2, hist_gray2)
 plt.show()
 
