@@ -11,8 +11,7 @@ The function should return the Gaussian values Gx computed at the indexes x
 """
 
 
-# TODO: test function
-# TODO: why is the sum of the gaussian not exactly equal to 1?
+# TODO: merge with Tansel version
 def gauss(sigma):
     """
     Gauss Function
@@ -20,8 +19,8 @@ def gauss(sigma):
     :param sigma: (float) Sigma value of Gaussian
     :return: Gaussian array and x array
     """
-    sigma = int(sigma)
-    x = np.linspace(-3 * sigma, 3 * sigma, (2 * 3 * sigma) + 1, endpoint=True)
+    sigma3 = int(3 * sigma)
+    x = np.linspace(-sigma3, sigma3, (2 * sigma3) + 1, endpoint=True)
     gx = (1 / (np.sqrt(2 * np.pi) * sigma)) * np.exp(-(x ** 2) / (2 * sigma ** 2))
 
     return gx, x
@@ -36,9 +35,7 @@ Output: smoothed image
 """
 
 
-# TODO: Remove convolution_1d input parameter once we are sure they both return same result (first test return same
-#  result)
-# TODO: 1d convolution seems to go slower than 2d convolution...
+# TODO: Using 1d approach write our own conv2 function
 def gaussianfilter(img, sigma, convolution_1d=True):
     gauss_kernel_1d, _ = gauss(sigma)
     len_1d_kernel = len(gauss_kernel_1d)
@@ -70,7 +67,7 @@ The function should return the Gaussian derivative values Dx computed at the ind
 """
 
 
-# TODO: test
+# TODO: merge with Tansel branch
 def gaussdx(sigma):
 
     sigma = int(sigma)
