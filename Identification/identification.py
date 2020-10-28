@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 import Identification.histogram_module as histogram_module
 import Identification.dist_module as dist_module
-import Identification.match_module
+import Identification.match_module as match_module
 import Identification.rpc_module
 
 
@@ -80,11 +80,11 @@ plt.bar(np.array(range(1,hist_dxdy.size+1)),hist_dxdy)
 plt.show()
 
 
+# TODO: review error
+# Distance functions (Question 2.c)
 
-## Distance functions (Question 2.c)
-
-image_files1 = ['./model/obj1__0.png']
-image_files2 = ['./model/obj91__0.png', './model/obj94__0.png']
+image_files1 = ['Identification/model/obj1__0.png']
+image_files2 = ['Identification/model/obj91__0.png', 'Identification/model/obj94__0.png']
 
 plt.figure()
 plt.subplot(1,3,1); plt.imshow(np.array(Image.open(image_files1[0])), vmin=0, vmax=255); plt.title(image_files1[0])
@@ -157,14 +157,13 @@ print('%s-%s, %s-%s, %s-%s, %s-%s'%('chi2', 'grayvalue', 'chi2', 'rgb', 'chi2', 
 
 
 
-
 ## Find best match (Question 3.a)
 
-with open('model.txt') as fp:
+with open('Identification/model.txt') as fp:
     model_images = fp.readlines()
 model_images = [x.strip() for x in model_images] 
 
-with open('query.txt') as fp:
+with open('Identification/query.txt') as fp:
     query_images = fp.readlines()
 query_images = [x.strip() for x in query_images] 
 
@@ -222,3 +221,10 @@ rpc_module.compare_dist_rpc(model_images, query_images, ['chi2', 'intersect', 'l
 plt.title('dx/dy histograms')
 plt.show()
 
+
+
+
+
+
+# TO DELETE
+x = histogram_module.rgb_hist(img_color.astype('double'), 30)
