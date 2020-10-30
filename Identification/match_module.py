@@ -5,13 +5,12 @@ import matplotlib.pyplot as plt
 import Identification.histogram_module as histogram_module
 import Identification.dist_module as dist_module
 
-def rgb2gray(rgb):
 
-    r, g, b = rgb[:,:,0], rgb[:,:,1], rgb[:,:,2]
+def rgb2gray(rgb):
+    r, g, b = rgb[:, :, 0], rgb[:, :, 1], rgb[:, :, 2]
     gray = 0.2989 * r + 0.5870 * g + 0.1140 * b
 
     return gray
-
 
 
 # model_images - list of file names of model images
@@ -25,7 +24,6 @@ def rgb2gray(rgb):
 #       expects grayvalue or color image
 
 def find_best_match(model_images, query_images, dist_type, hist_type, num_bins, nearest_neighbours=None):
-
     hist_isgray = histogram_module.is_grayvalue_hist(hist_type)
 
     model_images = ['Identification/' + model_images[i] for i in range(len(model_images))]
@@ -47,7 +45,6 @@ def find_best_match(model_images, query_images, dist_type, hist_type, num_bins, 
 
 
 def compute_histograms(image_list, hist_type, hist_isgray, num_bins):
-    
     image_hist = []
 
     # Compute histogram for each image and add it at the bottom of image_hist
@@ -59,7 +56,6 @@ def compute_histograms(image_list, hist_type, hist_isgray, num_bins):
     return image_hist
 
 
-
 # For each image file from 'query_images' find and visualize the 5 nearest images from 'model_image'.
 #
 # Note: use the previously implemented function 'find_best_match'
@@ -67,7 +63,6 @@ def compute_histograms(image_list, hist_type, hist_isgray, num_bins):
 
 
 def show_neighbors(model_images, query_images, dist_type, hist_type, num_bins):
-
     plt.figure()
 
     num_nearest = 5  # show the top-5 neighbors

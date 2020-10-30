@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import Identification.histogram_module as histogram_module
 import Identification.dist_module as dist_module
 import Identification.match_module as match_module
-import Identification.rpc_module
+import Identification.rpc_module as rpc_module
 
 
 
@@ -193,11 +193,11 @@ print('number of correct matches: %d (%f)\n'% (num_correct, 1.0 * num_correct / 
 
 ## plot recall_precision curves (Question 4)
 
-with open('model.txt') as fp:
+with open('Identification/model.txt') as fp:
     model_images = fp.readlines()
 model_images = [x.strip() for x in model_images] 
 
-with open('query.txt') as fp:
+with open('Identification/query.txt') as fp:
     query_images = fp.readlines()
 query_images = [x.strip() for x in query_images] 
 
@@ -220,11 +220,3 @@ plt.figure(10)
 rpc_module.compare_dist_rpc(model_images, query_images, ['chi2', 'intersect', 'l2'], 'dxdy', num_bins, ['r', 'g', 'b'])
 plt.title('dx/dy histograms')
 plt.show()
-
-
-
-
-
-
-# TO DELETE
-x = histogram_module.rgb_hist(img_color.astype('double'), 30)
