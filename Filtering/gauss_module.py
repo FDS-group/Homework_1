@@ -1,6 +1,5 @@
 # import packages: numpy, math (you might need pi for gaussian functions)
 import numpy as np
-import scipy
 from scipy.signal import convolve2d as conv2
 
 
@@ -50,30 +49,41 @@ Gaussian derivative function taking as argument the standard deviation sigma
 The filter should be defined for all integer values x in the range [-3sigma,3sigma]
 The function should return the Gaussian derivative values Dx computed at the indexes x
 """
-def gaussdx(sigma):
+def gaussdx(sigma, cap=False):
+    """
+    Generate gaussian derivative
+
+    :param sigma: Gaussian Sigma
+    :param cap: (int) Cap to the x array (over which the gaussian derivative will be applied
+    :return: Gaussian derivative and array over which it was applied
+    """
     int_3sigma = int(sigma * 3)
     x = np.linspace(-int_3sigma, int_3sigma, (2 * int_3sigma) + 1, endpoint=True)
+    if cap:
+        x[x < -cap] = -cap
+        x[x > cap] = cap
     dx = -(1 / (np.sqrt(2 * np.pi) * sigma ** 3)) * x * np.exp(-(x ** 2) / (2 * sigma ** 2))
 
     return dx, x
 
 
-def gaussderiv(img, sigma, attempt=True):
+def gaussderiv(img, sigma, attempt=False, cap=False, smoothen_image=True):
     if attempt:
-        dx, x = gaussdx(sigma)
+        dx, x = gaussdx(sigma, cap)
         dx = dx.reshape(1, dx.shape[0])
         new_row = np.zeros((((dx.shape[1] - dx.shape[0]) // 2), dx.shape[1]))
         new_matrix = np.concatenate((new_row, dx), axis=0)
         new_matrix = np.concatenate((new_matrix, new_row), axis=0)
         img = gaussianfilter(img, sigma)
-        imgDx = scipy.signal.convolve2d(img, new_matrix)
-        imgDy = scipy.signal.convolve2d(img, new_matrix.transpose())
+        imgDx = conv2(img, new_matrix)
+        imgDy = conv2(img, new_matrix.transpose())
+        return imgDx, imgDy
     else:
-        dx, x = gaussdx(sigma)
+        dx, x = gaussdx(sigma, cap)
         dx = dx.reshape(1, dx.shape[0])
         dy = dx.reshape(dx.shape[1], dx.shape[0])
-        img = gaussianfilter(img, sigma)
-        imgDx = scipy.signal.convolve2d(img, dx)
-        imgDy = scipy.signal.convolve2d(img, np.array(dy))
-
-    return imgDx, imgDy
+        if smoothen_image:
+            img = gaussianfilter(img, sigma)
+        imgDx = conv2(img, dx, mode='same')
+        imgDy = conv2(img, np.array(dy), mode='same')
+        return imgDx, imgDy

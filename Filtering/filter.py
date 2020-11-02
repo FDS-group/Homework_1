@@ -83,7 +83,7 @@ plt.show()
 
 img_c = np.array(Image.open('Filtering/graf.png')).astype('double')
 img = rgb2gray(img_c)
-[imgDx, imgDy] = gauss_module.gaussderiv(img, 7.0)
+[imgDx, imgDy] = gauss_module.gaussderiv(img, 7.0, False, smoothen_image=False)
 
 plt.figure(8)
 ax1 = plt.subplot(1, 3, 1)
