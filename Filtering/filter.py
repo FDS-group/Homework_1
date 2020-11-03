@@ -52,6 +52,7 @@ plt.legend(('gauss', 'gaussdx'))
 plt.show()
 
 ## function gaussdx (Question 1.d)
+# TODO: Tansel report
 
 img_imp = np.zeros([27, 27])
 img_imp[13, 13] = 1.0
@@ -80,6 +81,7 @@ plt.imshow(conv2(conv2(img_imp, Gx.T, 'same'), Dx, 'same'), cmap='gray')
 plt.show()
 
 ## function gaussderiv (Question 1.e)
+# TODO: Tansel report congratulations :)
 
 img_c = np.array(Image.open('Filtering/graf.png')).astype('double')
 img = rgb2gray(img_c)

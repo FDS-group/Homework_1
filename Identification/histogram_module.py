@@ -33,6 +33,8 @@ def normalized_hist(img_gray, num_bins):
     # Normalize
     hists = np.array(hists) / sum(hists)
 
+    assert np.sum(hists) == 1, 'Histogram is not normalized'
+
     return hists, bins
 
 
@@ -76,6 +78,8 @@ def rgb_hist(img_color_double, num_bins):
     # Return the histogram as a 1D vector
     hists = hists.reshape(hists.size)
 
+    assert np.sum(hists) == 1, 'Histogram is not normalized'
+
     return hists
 
 
@@ -116,6 +120,8 @@ def rg_hist(img_color_double, num_bins):
 
     # Return the histogram as a 1D vector
     hists = hists.reshape(hists.size)
+
+    assert np.sum(hists) == 1, 'Histogram is not normalized'
 
     return hists
 
