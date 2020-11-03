@@ -80,7 +80,7 @@ plt.bar(np.array(range(1,hist_dxdy.size+1)),hist_dxdy)
 plt.show()
 
 
-# TODO: review error
+# TODO: review error, Juan
 # Distance functions (Question 2.c)
 
 image_files1 = ['Identification/model/obj1__0.png']
@@ -167,7 +167,7 @@ with open('Identification/query.txt') as fp:
     query_images = fp.readlines()
 query_images = [x.strip() for x in query_images] 
 
-dist_type = 'intersect';
+dist_type = 'chi2';
 hist_type = 'rg';
 num_bins = 30;
 
@@ -183,6 +183,7 @@ match_module.show_neighbors(model_images, query_images_vis, dist_type, hist_type
 
 ## compute recognition percentage (Question 3.c)
 # import ipdb; ipdb.set_trace()
+# TODO: Alessandro, good luck
 num_correct = sum( best_match == range(len(query_images)) )
 print('number of correct matches: %d (%f)\n'% (num_correct, 1.0 * num_correct / len(query_images)))
 
@@ -190,6 +191,7 @@ print('number of correct matches: %d (%f)\n'% (num_correct, 1.0 * num_correct / 
 
 
 
+# TODO: poor leo, last one :(
 
 ## plot recall_precision curves (Question 4)
 
@@ -205,18 +207,18 @@ num_bins = 20;
 
 
 plt.figure(8)
-rpc_module.compare_dist_rpc(model_images, query_images, ['chi2', 'intersect', 'l2'], 'rg', num_bins, ['r', 'g', 'b'])
+rpc_module.compare_dist_rpc(model_images[:10], query_images[:10], ['chi2', 'intersect', 'l2'], 'rg', num_bins, ['r', 'g', 'b'])
 plt.title('RG histograms')
 plt.show()
 
 
 plt.figure(9)
-rpc_module.compare_dist_rpc(model_images, query_images, ['chi2', 'intersect', 'l2'], 'rgb', num_bins // 2, ['r', 'g', 'b'])
+rpc_module.compare_dist_rpc(model_images[:10], query_images[:10], ['chi2', 'intersect', 'l2'], 'rgb', num_bins // 2, ['r', 'g', 'b'])
 plt.title('RGB histograms')
 plt.show()
 
 
 plt.figure(10)
-rpc_module.compare_dist_rpc(model_images, query_images, ['chi2', 'intersect', 'l2'], 'dxdy', num_bins, ['r', 'g', 'b'])
+rpc_module.compare_dist_rpc(model_images[:10], query_images[:10], ['chi2', 'intersect', 'l2'], 'dxdy', num_bins, ['r', 'g', 'b'])
 plt.title('dx/dy histograms')
 plt.show()

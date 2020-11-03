@@ -33,6 +33,8 @@ def normalized_hist(img_gray, num_bins):
     # Normalize
     hists = np.array(hists) / sum(hists)
 
+    assert np.sum(hists) == 1, 'Histogram is not normalized'
+
     return hists, bins
 
 
@@ -76,6 +78,8 @@ def rgb_hist(img_color_double, num_bins):
     # Return the histogram as a 1D vector
     hists = hists.reshape(hists.size)
 
+    assert np.sum(hists) == 1, 'Histogram is not normalized'
+
     return hists
 
 
@@ -117,6 +121,8 @@ def rg_hist(img_color_double, num_bins):
     # Return the histogram as a 1D vector
     hists = hists.reshape(hists.size)
 
+    assert np.sum(hists) == 1, 'Histogram is not normalized'
+
     return hists
 
 
@@ -137,20 +143,19 @@ def dxdy_hist(img_gray, num_bins):
     # Define a 2D histogram  with "num_bins^2" number of entries
     hists = np.zeros((num_bins, num_bins))
 
-    bins = np.linspace(min(np.min(imgDx), np.min(imgDy)), max(np.max(imgDx), np.max(imgDy)), num_bins + 1)
+    bins = np.linspace(min(np.min(imgDx), np.min(imgDy)), max(np.max(imgDx), np.max(imgDy)) + 0.000001, num_bins + 1)
 
     # Resize imgDx and imgDy to do the loop in a more readable manner
     imgDx = imgDx.reshape(imgDx.size)
     imgDy = imgDy.reshape(imgDy.size)
 
-    assert len(imgDx) == len(imgDy), 'imgDx and imgDy shoulw have the same dimension!'
+    assert len(imgDx) == len(imgDy), 'imgDx and imgDy should have the same dimension!'
 
-    # do a loop over both imgDx and imgDy to compute the histogram!!
-    for i in range(imgDx):
+    for i in range(len(imgDx)):
         # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
         # Identify where the value of pixel i would fall into
         index_dx = int(np.digitize(imgDx[i], bins)) - 1
-        index_dy = int(np.digitize(imgDy[i][i, 1], bins)) - 1
+        index_dy = int(np.digitize(imgDy[i], bins)) - 1
 
         hists[index_dx, index_dy] += 1
 
