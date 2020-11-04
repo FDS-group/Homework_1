@@ -57,7 +57,7 @@ def rgb_hist(img_color_double, num_bins, reshape='C'):
     img_color_double_reshaped = img_color_double.reshape(-1, 3)
 
     # Bins (these will apply over the three dimensions equally)
-    bins = np.linspace(0, 255 + 1e-10, num_bins + 1)
+    bins = np.linspace(0, 255, num_bins + 1)
 
     # Define a 3D histogram  with "num_bins^3" number of entries
     hists = np.zeros((num_bins, num_bins, num_bins))
@@ -66,9 +66,9 @@ def rgb_hist(img_color_double, num_bins, reshape='C'):
     for i in img_color_double_reshaped.tolist():
         # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
         # Identify where the value of pixel i would fall into
-        indexR = int(np.digitize(i[0], bins, right=False)) - 1
-        indexG = int(np.digitize(i[1], bins, right=False)) - 1
-        indexB = int(np.digitize(i[2], bins, right=False)) - 1
+        indexR = int(min(np.digitize(i[0], bins, right=False) - 1, num_bins-1))
+        indexG = int(min(np.digitize(i[1], bins, right=False) - 1, num_bins-1))
+        indexB = int(min(np.digitize(i[2], bins, right=False) - 1, num_bins-1))
 
         hists[indexR, indexG, indexB] += 1
 
@@ -101,7 +101,7 @@ def rg_hist(img_color_double, num_bins):
     img_color_double_reshaped = img_color_double.reshape(-1, 3)
 
     # Bins (these will apply over the three dimensions equally)
-    bins = np.linspace(0, 255 + 1e-10, num_bins + 1)
+    bins = np.linspace(0, 255, num_bins + 1)
 
     # Define a 2D histogram  with "num_bins^2" number of entries
     hists = np.zeros((num_bins, num_bins))
@@ -110,8 +110,8 @@ def rg_hist(img_color_double, num_bins):
     for i in img_color_double_reshaped.tolist():
         # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
         # Identify where the value of pixel i would fall into
-        indexR = int(np.digitize(i[0], bins, right=False)) - 1
-        indexG = int(np.digitize(i[1], bins, right=False)) - 1
+        indexR = int(min(np.digitize(i[0], bins, right=False) - 1, num_bins-1))
+        indexG = int(min(np.digitize(i[1], bins, right=False) - 1, num_bins-1))
 
         hists[indexR, indexG] += 1
 
@@ -159,8 +159,8 @@ def dxdy_hist(img_gray, num_bins):
     for i in range(len(imgDx)):
         # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
         # Identify where the value of pixel i would fall into
-        index_dx = int(np.digitize(imgDx[i], bins, right=False)) - 1
-        index_dy = int(np.digitize(imgDy[i], bins, right=False)) - 1
+        index_dx = int(min(np.digitize(imgDx[i], bins, right=False) - 1, num_bins - 1))
+        index_dy = int(min(np.digitize(imgDy[i], bins, right=False) - 1, num_bins - 1))
 
         hists[index_dx, index_dy] += 1
 
