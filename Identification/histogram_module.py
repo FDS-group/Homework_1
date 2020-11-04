@@ -73,7 +73,6 @@ def rgb_hist(img_color_double, num_bins, reshape='C'):
         hists[indexR, indexG, indexB] += 1
 
     # Normalize the histogram such that its integral (sum) is equal 1
-    x = hists
     hists = hists / np.sum(hists)
 
     # Return the histogram as a 1D vector
@@ -81,7 +80,7 @@ def rgb_hist(img_color_double, num_bins, reshape='C'):
 
     assert np.sum(hists) == 1, 'Histogram is not normalized'
 
-    return hists, x
+    return hists
 
 
 #  Compute the *joint* histogram for the R and G color channels in the image

@@ -1,6 +1,16 @@
 import Identification.dist_module as dist_module
 import numpy as np
-from scipy.stats import chisquare
+
+
+def test_dist_intersection_ranges():
+    """ Test function distance l2 """
+
+    x = np.random.uniform(size=100)
+    x = x/np.sum(x)
+    y = x
+    distance = dist_module.dist_intersect(x, y)
+
+    assert round(distance, 6) == 0
 
 
 def test_dist_l2_ranges():
@@ -33,7 +43,7 @@ def test_dist_intersect():
         [0, 1.700493692, 4.059243006, 5.320899616, 6.747120132, 7.899067471, 9.434997257, 11.24520022, 12.94569391,
          12.83598464, 12.6165661, 10.80636314, 4.388370817])
 
-    distance = dist_module.dist_intersect(A/np.sum(A), B/np.sum(B))
+    distance = 1 - dist_module.dist_intersect(A/np.sum(A), B/np.sum(B))
 
     assert round(distance, 6) == round(88.447923561/100, 6)
 

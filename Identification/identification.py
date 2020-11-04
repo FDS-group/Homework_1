@@ -96,7 +96,7 @@ plt.show()
 
 img1_color = np.array(Image.open(image_files1[0]))
 img2_color = np.array(Image.open(image_files2[0]))
-num_bins_color = 2  # TODO: Change to 30
+num_bins_color = 30  # TODO: Change to 30
 hist1_rgb = histogram_module.rgb_hist(img1_color.astype('double'), num_bins_color)
 hist2_rgb = histogram_module.rgb_hist(img2_color.astype('double'), num_bins_color)
 
@@ -127,9 +127,7 @@ for img1_file in image_files1:
         D = np.zeros( (len(distance_types),len(hist_types)) )
     
         for didx in range(len(distance_types)):
-            print(didx)
             for hidx in range(len(hist_types)):
-                print(hidx)
                 if histogram_module.is_grayvalue_hist(hist_types[hidx]):
                     hist1 = histogram_module.get_hist_by_name(img1_gray, num_bins_gray, hist_types[hidx])
                     hist2 = histogram_module.get_hist_by_name(img2_gray, num_bins_gray, hist_types[hidx])
@@ -169,7 +167,7 @@ with open('Identification/query.txt') as fp:
     query_images = fp.readlines()
 query_images = [x.strip() for x in query_images] 
 
-dist_type = 'chi2';
+dist_type = 'intersect';
 hist_type = 'rg';
 num_bins = 30;
 
