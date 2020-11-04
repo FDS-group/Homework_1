@@ -9,9 +9,7 @@ import math
 
 def dist_intersect(x,y):
 
-    intersection_distance = np.sum(np.minimum(x, y))
-    # sum_of_minimum_values = np.sum(np.minimum(x, y))
-    # intersection_distance = 0.5*((sum_of_minimum_values/np.sum(x)) + (sum_of_minimum_values/np.sum(y)))
+    intersection_distance = 1 - np.sum(np.minimum(x, y))
 
     assert (intersection_distance >= 0) & (intersection_distance <= 1), 'Intersection distance cannot be outside of the range [0, 1]'
 

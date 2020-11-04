@@ -49,7 +49,7 @@ def normalized_hist(img_gray, num_bins):
 #       - their R values fall in bin 0
 #       - their G values fall in bin 9
 #       - their B values fall in bin 5
-def rgb_hist(img_color_double, num_bins):
+def rgb_hist(img_color_double, num_bins, reshape='C'):
     assert len(img_color_double.shape) == 3, 'image dimension mismatch'
     assert img_color_double.dtype == 'float', 'incorrect image type'
 
@@ -57,18 +57,18 @@ def rgb_hist(img_color_double, num_bins):
     img_color_double_reshaped = img_color_double.reshape(-1, 3)
 
     # Bins (these will apply over the three dimensions equally)
-    bins = np.linspace(0, 255, num_bins + 1)
+    bins = np.linspace(0, 255 + 1e-10, num_bins + 1)
 
     # Define a 3D histogram  with "num_bins^3" number of entries
     hists = np.zeros((num_bins, num_bins, num_bins))
 
     # Loop for each pixel i in the image
-    for i in range(img_color_double.shape[0] * img_color_double.shape[1]):
+    for i in img_color_double_reshaped.tolist():
         # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
         # Identify where the value of pixel i would fall into
-        indexR = int(np.digitize(img_color_double_reshaped[i, 0], bins)) - 1
-        indexG = int(np.digitize(img_color_double_reshaped[i, 1], bins)) - 1
-        indexB = int(np.digitize(img_color_double_reshaped[i, 2], bins)) - 1
+        indexR = int(np.digitize(i[0], bins, right=False)) - 1
+        indexG = int(np.digitize(i[1], bins, right=False)) - 1
+        indexB = int(np.digitize(i[2], bins, right=False)) - 1
 
         hists[indexR, indexG, indexB] += 1
 
@@ -76,7 +76,7 @@ def rgb_hist(img_color_double, num_bins):
     hists = hists / np.sum(hists)
 
     # Return the histogram as a 1D vector
-    hists = hists.reshape(hists.size)
+    hists = np.reshape(hists, num_bins**3, order=reshape)
 
     assert np.sum(hists) == 1, 'Histogram is not normalized'
 
@@ -101,17 +101,17 @@ def rg_hist(img_color_double, num_bins):
     img_color_double_reshaped = img_color_double.reshape(-1, 3)
 
     # Bins (these will apply over the three dimensions equally)
-    bins = np.linspace(0, 255, num_bins + 1)
+    bins = np.linspace(0, 255 + 1e-10, num_bins + 1)
 
     # Define a 2D histogram  with "num_bins^2" number of entries
     hists = np.zeros((num_bins, num_bins))
 
     # Loop for each pixel i in the image
-    for i in range(img_color_double.shape[0] * img_color_double.shape[1]):
+    for i in img_color_double_reshaped.tolist():
         # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
         # Identify where the value of pixel i would fall into
-        indexR = int(np.digitize(img_color_double_reshaped[i, 0], bins)) - 1
-        indexG = int(np.digitize(img_color_double_reshaped[i, 1], bins)) - 1
+        indexR = int(np.digitize(i[0], bins, right=False)) - 1
+        indexG = int(np.digitize(i[1], bins, right=False)) - 1
 
         hists[indexR, indexG] += 1
 
@@ -138,12 +138,17 @@ def dxdy_hist(img_gray, num_bins):
     assert len(img_gray.shape) == 2, 'image dimension mismatch'
     assert img_gray.dtype == 'float', 'incorrect image type'
 
-    imgDx, imgDy = gauss_module.gaussderiv(img_gray, 3, cap=6)
+    imgDx, imgDy = gauss_module.gaussderiv(img_gray, 3)
+
+    imgDx[imgDx < -6] = -6
+    imgDx[imgDx > 6] = 6
+    imgDy[imgDy < -6] = -6
+    imgDy[imgDy > 6] = 6
 
     # Define a 2D histogram  with "num_bins^2" number of entries
     hists = np.zeros((num_bins, num_bins))
 
-    bins = np.linspace(min(np.min(imgDx), np.min(imgDy)), max(np.max(imgDx), np.max(imgDy)) + 0.000001, num_bins + 1)
+    bins = np.linspace(min(np.min(imgDx), np.min(imgDy)), max(np.max(imgDx), np.max(imgDy)) + 1e-10, num_bins + 1)
 
     # Resize imgDx and imgDy to do the loop in a more readable manner
     imgDx = imgDx.reshape(imgDx.size)
@@ -154,10 +159,13 @@ def dxdy_hist(img_gray, num_bins):
     for i in range(len(imgDx)):
         # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
         # Identify where the value of pixel i would fall into
-        index_dx = int(np.digitize(imgDx[i], bins)) - 1
-        index_dy = int(np.digitize(imgDy[i], bins)) - 1
+        index_dx = int(np.digitize(imgDx[i], bins, right=False)) - 1
+        index_dy = int(np.digitize(imgDy[i], bins, right=False)) - 1
 
         hists[index_dx, index_dy] += 1
+
+    # Normalize the histogram such that its integral (sum) is equal 1
+    hists = hists / np.sum(hists)
 
     # Return the histogram as a 1D vector
     hists = hists.reshape(hists.size)
