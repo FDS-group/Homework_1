@@ -74,22 +74,25 @@ def show_neighbors(model_images, query_images, dist_type, hist_type, num_bins):
     plt.figure()
 
     num_nearest = 5  # show the top-5 neighbors
-    neighbors_index, _ = find_best_match(model_images, query_images, dist_type, hist_type, num_bins,
+    neighbors_index, D = find_best_match(model_images, query_images, dist_type, hist_type, num_bins,
                                          nearest_neighbours=num_nearest)
     fig = plt.figure(figsize=(12, 8))
+    neighbors_index_reshape = neighbors_index.reshape(neighbors_index.size)
     columns = num_nearest + 1
     rows = len(query_images)
+    j = 0
     for i in range(1, columns * rows + 1):
         if i % columns == 1:
             img = np.array(Image.open('Identification/' + query_images[i // columns]))
             fig.add_subplot(rows, columns, i)
-            plt.title(query_images[i // columns])
+            plt.title('Q' + str(i % columns))
             plt.imshow(img)
         else:
+            j += 1
             image = np.array(
                 Image.open('Identification/' + model_images[neighbors_index[(i - 1) // columns, (i - 2) % columns]]))
             fig.add_subplot(rows, columns, i)
-            plt.title(model_images[neighbors_index[(i - 1) // columns, (i - 2) % columns]])
+            plt.title('M0.' + str(int(D[(i - 1) // columns, neighbors_index_reshape[j-1]]*100)))
             plt.imshow(image)
     fig.tight_layout(pad=2.0)
     plt.show()
