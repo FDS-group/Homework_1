@@ -42,6 +42,8 @@ hist_gray2, bin_gray2 = histogram_module.normalized_hist(img_gray, num_bins_gray
 plt.bar((bin_gray2[0:-1] + bin_gray2[1:])/2, hist_gray2)
 plt.show()
 
+assert np.all(hist_gray1 == hist_gray2*np.sum(hist_gray1)), 'Histograms are different'
+
 
 
 ## more histograms (Question 2.b)
@@ -94,7 +96,7 @@ plt.show()
 
 img1_color = np.array(Image.open(image_files1[0]))
 img2_color = np.array(Image.open(image_files2[0]))
-num_bins_color = 30
+num_bins_color = 2  # TODO: Change to 30
 hist1_rgb = histogram_module.rgb_hist(img1_color.astype('double'), num_bins_color)
 hist2_rgb = histogram_module.rgb_hist(img2_color.astype('double'), num_bins_color)
 
@@ -125,9 +127,9 @@ for img1_file in image_files1:
         D = np.zeros( (len(distance_types),len(hist_types)) )
     
         for didx in range(len(distance_types)):
-    
+            print(didx)
             for hidx in range(len(hist_types)):
-    
+                print(hidx)
                 if histogram_module.is_grayvalue_hist(hist_types[hidx]):
                     hist1 = histogram_module.get_hist_by_name(img1_gray, num_bins_gray, hist_types[hidx])
                     hist2 = histogram_module.get_hist_by_name(img2_gray, num_bins_gray, hist_types[hidx])
@@ -207,18 +209,18 @@ num_bins = 20;
 
 
 plt.figure(8)
-rpc_module.compare_dist_rpc(model_images[:10], query_images[:10], ['chi2', 'intersect', 'l2'], 'rg', num_bins, ['r', 'g', 'b'])
+rpc_module.compare_dist_rpc(model_images, query_images, ['chi2', 'intersect', 'l2'], 'rg', num_bins, ['r', 'g', 'b'])
 plt.title('RG histograms')
 plt.show()
 
 
 plt.figure(9)
-rpc_module.compare_dist_rpc(model_images[:10], query_images[:10], ['chi2', 'intersect', 'l2'], 'rgb', num_bins // 2, ['r', 'g', 'b'])
+rpc_module.compare_dist_rpc(model_images, query_images, ['chi2', 'intersect', 'l2'], 'rgb', num_bins // 2, ['r', 'g', 'b'])
 plt.title('RGB histograms')
 plt.show()
 
 
 plt.figure(10)
-rpc_module.compare_dist_rpc(model_images[:10], query_images[:10], ['chi2', 'intersect', 'l2'], 'dxdy', num_bins, ['r', 'g', 'b'])
+rpc_module.compare_dist_rpc(model_images, query_images, ['chi2', 'intersect', 'l2'], 'dxdy', num_bins, ['r', 'g', 'b'])
 plt.title('dx/dy histograms')
 plt.show()

@@ -44,14 +44,22 @@ def find_best_match(model_images, query_images, dist_type, hist_type, num_bins, 
         return best_match, D
 
 
+# TODO: use hist_isgray to generate the dxdy hist
 def compute_histograms(image_list, hist_type, hist_isgray, num_bins):
     image_hist = []
 
     # Compute histogram for each image and add it at the bottom of image_hist
-    for image in image_list:
-        image_matrix = np.array(Image.open(image)).astype('double')
-        image_hist.append(histogram_module.get_hist_by_name(img=image_matrix, num_bins_gray=num_bins,
-                                                            hist_name=hist_type))
+    if hist_isgray:
+        for image in image_list:
+            img_color = np.array(Image.open(image)).astype('double')
+            image_matrix = rgb2gray(img_color)
+            image_hist.append(histogram_module.get_hist_by_name(img=image_matrix, num_bins_gray=num_bins,
+                                                                hist_name=hist_type))
+    else:
+        for image in image_list:
+            image_matrix = np.array(Image.open(image)).astype('double')
+            image_hist.append(histogram_module.get_hist_by_name(img=image_matrix, num_bins_gray=num_bins,
+                                                                hist_name=hist_type))
 
     return image_hist
 
@@ -75,13 +83,13 @@ def show_neighbors(model_images, query_images, dist_type, hist_type, num_bins):
         if i % columns == 1:
             img = np.array(Image.open('Identification/' + query_images[i // columns]))
             fig.add_subplot(rows, columns, i)
-            plt.title('Q' + str(i % columns))
+            plt.title(query_images[i // columns])
             plt.imshow(img)
         else:
             image = np.array(
                 Image.open('Identification/' + model_images[neighbors_index[(i - 1) // columns, (i - 2) % columns]]))
             fig.add_subplot(rows, columns, i)
-            plt.title('Model')
+            plt.title(model_images[neighbors_index[(i - 1) // columns, (i - 2) % columns]])
             plt.imshow(image)
     fig.tight_layout(pad=2.0)
     plt.show()
