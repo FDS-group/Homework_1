@@ -1,8 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-import Identification.histogram_module as histogram_module
-import Identification.dist_module as dist_module
 import Identification.match_module as match_module
 
 
@@ -49,11 +47,6 @@ def plot_rpc(D, plot_color):
         tp += l[idt]
         fp = len(l[:idt]) + 1 - tp
         fn = np.sum(l[idt+1:])
-        if idt < 60:
-            print(l[:idt])
-            print('tp:', tp)
-            print('fp:', fp)
-            print('fn:', fn)
 
         # Compute precision and recall values and append them to "recall" and "precision" vectors
         precision.append(tp/(tp+fp))
@@ -67,15 +60,10 @@ def compare_dist_rpc(model_images, query_images, dist_types, hist_type, num_bins
 
     for idx in range(len(dist_types)):
         [best_match, D] = match_module.find_best_match(model_images, query_images, dist_types[idx], hist_type, num_bins)
-        print(dist_types)
-        print(hist_type)
-        print(num_bins)
         plot_rpc(D, plot_colors[idx])
 
     plt.axis([0, 1, 0, 1])
     plt.xlabel('1 - precision')
     plt.ylabel('recall')
-
-    # legend(dist_types, 'Location', 'Best')
 
     plt.legend(dist_types, loc='best')
