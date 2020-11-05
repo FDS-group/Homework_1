@@ -2,7 +2,6 @@
 import numpy as np
 from scipy.signal import convolve2d as conv2
 
-
 """
 Gaussian function taking as argument the standard deviation sigma
 The filter should be defined for all integer values x in the range [-3sigma,3sigma]
@@ -34,6 +33,13 @@ Output: smoothed image
 
 
 def gaussianfilter(img, sigma):
+    """
+    Apply gaussian filter over image
+
+    :param img: (np.array) Image matrix over which filter will be applied
+    :param sigma: (float) Sigma value of Gaussian
+    :return: Filtered image
+    """
 
     gx, x = gauss(sigma)
     gx = gx.reshape(1, gx.shape[0])
@@ -49,14 +55,9 @@ Gaussian derivative function taking as argument the standard deviation sigma
 The filter should be defined for all integer values x in the range [-3sigma,3sigma]
 The function should return the Gaussian derivative values Dx computed at the indexes x
 """
-def gaussdx(sigma, cap=False):
-    """
-    Generate gaussian derivative
 
-    :param sigma: Gaussian Sigma
-    :param cap: (int) Cap to the x array (over which the gaussian derivative will be applied
-    :return: Gaussian derivative and array over which it was applied
-    """
+
+def gaussdx(sigma, cap=False):
     int_3sigma = int(sigma * 3)
     x = np.linspace(-int_3sigma, int_3sigma, (2 * int_3sigma) + 1, endpoint=True)
     if cap:
@@ -67,23 +68,12 @@ def gaussdx(sigma, cap=False):
     return dx, x
 
 
-def gaussderiv(img, sigma, attempt=False, cap=False, smoothen_image=True):
-    if attempt:
-        dx, x = gaussdx(sigma, cap)
-        dx = dx.reshape(1, dx.shape[0])
-        new_row = np.zeros((((dx.shape[1] - dx.shape[0]) // 2), dx.shape[1]))
-        new_matrix = np.concatenate((new_row, dx), axis=0)
-        new_matrix = np.concatenate((new_matrix, new_row), axis=0)
+def gaussderiv(img, sigma, cap=False, smoothen_image=True):
+    dx, x = gaussdx(sigma, cap)
+    dx = dx.reshape(1, dx.shape[0])
+    dy = dx.reshape(dx.shape[1], dx.shape[0])
+    if smoothen_image:
         img = gaussianfilter(img, sigma)
-        imgDx = conv2(img, new_matrix)
-        imgDy = conv2(img, new_matrix.transpose())
-        return imgDx, imgDy
-    else:
-        dx, x = gaussdx(sigma, cap)
-        dx = dx.reshape(1, dx.shape[0])
-        dy = dx.reshape(dx.shape[1], dx.shape[0])
-        if smoothen_image:
-            img = gaussianfilter(img, sigma)
-        imgDx = conv2(img, dx, mode='same')
-        imgDy = conv2(img, np.array(dy), mode='same')
-        return imgDx, imgDy
+    imgDx = conv2(img, dx, mode='same')
+    imgDy = conv2(img, np.array(dy), mode='same')
+    return imgDx, imgDy

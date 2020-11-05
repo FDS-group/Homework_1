@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 import Filtering.gauss_module as gauss_module
 
 
-
 def rgb2gray(rgb):
     r, g, b = rgb[:, :, 0], rgb[:, :, 1], rgb[:, :, 2]
     gray = 0.2989 * r + 0.5870 * g + 0.1140 * b
@@ -52,7 +51,6 @@ plt.legend(('gauss', 'gaussdx'))
 plt.show()
 
 ## function gaussdx (Question 1.d)
-# TODO: Tansel report
 
 img_imp = np.zeros([27, 27])
 img_imp[13, 13] = 1.0
@@ -81,7 +79,6 @@ plt.imshow(conv2(conv2(img_imp, Gx.T, 'same'), Dx, 'same'), cmap='gray')
 plt.show()
 
 ## function gaussderiv (Question 1.e)
-# TODO: Tansel report congratulations :)
 
 img_c = np.array(Image.open('Filtering/graf.png')).astype('double')
 img = rgb2gray(img_c)
