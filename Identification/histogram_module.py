@@ -1,6 +1,6 @@
 import numpy as np
-from numpy import histogram as hist
 import Filtering.gauss_module as gauss_module
+
 
 # Add the Filtering folder, to import the gauss_module.py file, where gaussderiv is defined (needed for dxdy_hist)
 
@@ -10,7 +10,7 @@ import Filtering.gauss_module as gauss_module
 #
 #  img_gray - input image in grayscale format
 #  num_bins - number of bins in the histogram
-# TODO: rethink algorithm
+
 def normalized_hist(img_gray, num_bins):
     assert len(img_gray.shape) == 2, 'image dimension mismatch'
     assert img_gray.dtype == 'float', 'incorrect image type'
@@ -66,9 +66,9 @@ def rgb_hist(img_color_double, num_bins, reshape='C'):
     for i in img_color_double_reshaped.tolist():
         # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
         # Identify where the value of pixel i would fall into
-        indexR = int(min(np.digitize(i[0], bins, right=False) - 1, num_bins-1))
-        indexG = int(min(np.digitize(i[1], bins, right=False) - 1, num_bins-1))
-        indexB = int(min(np.digitize(i[2], bins, right=False) - 1, num_bins-1))
+        indexR = int(min(np.digitize(i[0], bins, right=False) - 1, num_bins - 1))
+        indexG = int(min(np.digitize(i[1], bins, right=False) - 1, num_bins - 1))
+        indexB = int(min(np.digitize(i[2], bins, right=False) - 1, num_bins - 1))
 
         hists[indexR, indexG, indexB] += 1
 
@@ -76,7 +76,7 @@ def rgb_hist(img_color_double, num_bins, reshape='C'):
     hists = hists / np.sum(hists)
 
     # Return the histogram as a 1D vector
-    hists = np.reshape(hists, num_bins**3, order=reshape)
+    hists = np.reshape(hists, num_bins ** 3, order=reshape)
 
     assert np.sum(hists) == 1, 'Histogram is not normalized'
 
@@ -110,8 +110,8 @@ def rg_hist(img_color_double, num_bins):
     for i in img_color_double_reshaped.tolist():
         # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
         # Identify where the value of pixel i would fall into
-        indexR = int(min(np.digitize(i[0], bins, right=False) - 1, num_bins-1))
-        indexG = int(min(np.digitize(i[1], bins, right=False) - 1, num_bins-1))
+        indexR = int(min(np.digitize(i[0], bins, right=False) - 1, num_bins - 1))
+        indexG = int(min(np.digitize(i[1], bins, right=False) - 1, num_bins - 1))
 
         hists[indexR, indexG] += 1
 

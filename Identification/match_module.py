@@ -44,7 +44,6 @@ def find_best_match(model_images, query_images, dist_type, hist_type, num_bins, 
         return best_match, D
 
 
-# TODO: use hist_isgray to generate the dxdy hist
 def compute_histograms(image_list, hist_type, hist_isgray, num_bins):
     image_hist = []
 
@@ -92,7 +91,7 @@ def show_neighbors(model_images, query_images, dist_type, hist_type, num_bins):
             image = np.array(
                 Image.open('Identification/' + model_images[neighbors_index[(i - 1) // columns, (i - 2) % columns]]))
             fig.add_subplot(rows, columns, i)
-            plt.title('M0.' + str(int(D[(i - 1) // columns, neighbors_index_reshape[j-1]]*100)))
+            plt.title('M0.' + str(int(D[(i - 1) // columns, neighbors_index_reshape[j - 1]] * 100)))
             plt.imshow(image)
     fig.tight_layout(pad=2.0)
     plt.show()
