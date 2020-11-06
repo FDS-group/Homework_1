@@ -49,7 +49,7 @@ def normalized_hist(img_gray, num_bins):
 #       - their R values fall in bin 0
 #       - their G values fall in bin 9
 #       - their B values fall in bin 5
-def rgb_hist(img_color_double, num_bins, reshape='C'):
+def rgb_hist(img_color_double, num_bins):
     assert len(img_color_double.shape) == 3, 'image dimension mismatch'
     assert img_color_double.dtype == 'float', 'incorrect image type'
 
@@ -76,7 +76,7 @@ def rgb_hist(img_color_double, num_bins, reshape='C'):
     hists = hists / np.sum(hists)
 
     # Return the histogram as a 1D vector
-    hists = np.reshape(hists, num_bins ** 3, order=reshape)
+    hists = np.reshape(hists, num_bins ** 3)
 
     assert np.sum(hists) == 1, 'Histogram is not normalized'
 
